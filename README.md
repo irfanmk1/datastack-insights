@@ -64,8 +64,8 @@ The user interface adopts a professional slate-and-indigo color palette inspired
 3.  **Configure API Credentials**:
     Create a `.env` file in the root directory and add your Adzuna API keys:
     ```env
-    ADZUNA_APP_ID=your_actual_app_id
-    ADZUNA_APP_KEY=your_actual_app_key
+    ADZUNA_APP_ID=your_app_id
+    ADZUNA_APP_KEY=your_app_key
     ```
     *(Note: Free API credentials can be obtained by registering at [Adzuna Developer Portal](https://developer.adzuna.com/))*
 
