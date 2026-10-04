@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DataStack Insights</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen pb-12">
+    <div class="max-w-6xl mx-auto px-4 pt-12">
+
+        <!-- Header Section -->
+        <div class="text-center mb-12">
+            <!-- pb-2 added below to prevent the 'g' from clipping -->
+            <h1 class="text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600 mb-3 tracking-tight pb-2">
+                Data Market Insights
+            </h1>
+        </div>
+
+        <!-- Search Control Panel -->
+        <div class="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-100 mb-8 search-card transition-all">
+            <div class="flex flex-col md:flex-row gap-4">
+                <select id="countrySelect" onchange="updateCities()" class="bg-slate-50 border border-slate-200 text-slate-700 p-3 rounded-xl w-full focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all cursor-pointer">
+                    <option value="">Select a Country</option>
+                    <option value="au">Australia</option>
+                    <option value="at">Austria</option>
+                    <option value="be">Belgium</option>
+                    <option value="br">Brazil</option>
+                    <option value="ca">Canada</option>
+                    <option value="fr">France</option>
+                    <option value="de">Germany</option>
+                    <option value="in">India</option>
+                    <option value="it">Italy</option>
+                    <option value="mx">Mexico</option>
+                    <option value="nl">Netherlands</option>
+                    <option value="nz">New Zealand</option>
+                    <option value="pl">Poland</option>
+                    <option value="sg">Singapore</option>
+                    <option value="za">South Africa</option>
+                    <option value="es">Spain</option>
+                    <option value="ch">Switzerland</option>
+                    <option value="gb">United Kingdom</option>
+                    <option value="us">United States</option>
+                </select>
+
+                <select id="citySelect" class="bg-slate-50 border border-slate-200 text-slate-700 p-3 rounded-xl w-full focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+                    <option value="">Select a City</option>
+                </select>
+
+                <select id="targetSelect" class="bg-slate-50 border border-slate-200 text-slate-700 p-3 rounded-xl w-full focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all cursor-pointer">
+                    <option value="Analytics Engineer">Analytics Engineer</option>
+                    <option value="Business Intelligence">Business Intelligence</option>
+                    <option value="Data Analyst">Data Analyst</option>
+                    <option value="Data Architect">Data Architect</option>
+                    <option value="Data Engineer">Data Engineer</option>
+                    <option value="Data Scientist">Data Scientist</option>
+                    <option value="Database Administrator">Database Administrator</option>
+                    <option value="Machine Learning Engineer">Machine Learning Engineer</option>
+                    <option value="Statistician">Statistician</option>
+                </select>
+
+                <button id="searchBtn" onclick="triggerJobSearch()" class="bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold px-8 py-3 rounded-xl w-full md:w-auto shadow-md hover:shadow-lg transition-all flex items-center justify-center whitespace-nowrap">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                    Search Jobs
+                </button>
+            </div>
+        </div>
+
+        <!-- Loading Indicator -->
+        <div id="statusMsg" class="hidden mb-6 text-center">
+            <span class="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium bg-indigo-100 text-indigo-800">
+                <svg class="animate-spin -ml-1 mr-3 h-4 w-4 text-indigo-800" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                Fetching and analyzing live market data...
+            </span>
+        </div>
+
+        <!-- Chart Containers -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+            <div class="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-100 chart-card">
+                <h2 class="text-xl font-bold mb-6 text-slate-800 tracking-tight">Top Skills Demand</h2>
+                <div class="chart-box">
+                    <canvas id="barChart"></canvas>
+                </div>
+            </div>
+            <div class="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-100 chart-card">
+                <h2 class="text-xl font-bold mb-6 text-slate-800 tracking-tight">Skill Category Breakdown</h2>
+                <div class="chart-box">
+                    <canvas id="doughnutChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Insights Card -->
+        <div class="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-100 chart-card">
+            <h2 class="text-xl font-bold mb-4 text-slate-800 tracking-tight">
+                Insights & Takeaways
+            </h2>
+            <ul id="insightsList" class="list-disc pl-6 space-y-3 text-slate-600 text-lg">
+                <li>Run a search to generate dynamic market insights.</li>
+            </ul>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>

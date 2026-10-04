@@ -1,0 +1,40 @@
+/* Button animation */
+#searchBtn {
+    transition: all 0.2s ease;
+}
+
+#searchBtn:hover:not(:disabled) {
+    transform: translateY(-1px);
+    filter: brightness(110%);
+}
+
+#searchBtn:active:not(:disabled) {
+    transform: translateY(1px);
+}
+
+#searchBtn:disabled {
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+/* Chart container sizing */
+.chart-box {
+    position: relative;
+    height: 420px;
+    width: 100%;
+}
+
+/* Custom Scrollbar for a polished feel */
+::-webkit-scrollbar {
+    width: 8px;
+}
+::-webkit-scrollbar-track {
+    background: #f1f5f9;
+}
+::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}
