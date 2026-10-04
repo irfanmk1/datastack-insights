@@ -3,6 +3,8 @@
 #### Description:
 **DataStack Insights** is an interactive web dashboard that helps you see what data skills companies are actually hiring for in real time. Built as my CS50 final project, the app connects to the live Adzuna Job Search API, pulls in hundreds of job postings for specific roles and cities, and scans the descriptions for essential technical skills. It then stores everything in a clean SQLite database and turns the raw numbers into interactive charts and clear takeaways—so instead of guessing which tool to learn next, you have actual market data to back it up.
 
+> **Live Demo:** [datastack-insights.onrender.com](https://datastack-insights.onrender.com)
+
 ---
 
 ### Project File Structure
